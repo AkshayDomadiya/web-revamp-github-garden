@@ -1,268 +1,303 @@
+
 import React from "react";
 import {
-    Typography,
-    Card,
-    CardBody,
-    Avatar,
-    Chip,
-    Button,
+  Typography,
+  Card,
+  CardHeader,
+  CardBody,
+  Button,
+  Progress,
 } from "@material-tailwind/react";
 import {
-    UserGroupIcon,
-    BanknotesIcon,
-    BuildingOffice2Icon,
+  UserGroupIcon,
+  BuildingOfficeIcon,
+  ChartBarIcon,
+  CurrencyDollarIcon,
+  ShieldCheckIcon,
+  Cog6ToothIcon,
+  DocumentTextIcon,
+  BellIcon,
 } from "@heroicons/react/24/solid";
-import {
-    PieChart,
-    Pie,
-    Cell,
-    BarChart,
-    Bar,
-    XAxis,
-    YAxis,
-    Tooltip,
-    ResponsiveContainer,
-    Legend,
-} from "recharts";
+import { useNavigate } from "react-router-dom";
 
-export default function AdminDashboard() {
-    const COLORS = ["#3b82f6", "#10b981", "#f59e0b", "#ef4444"];
+export function AdminDashboard() {
+  const navigate = useNavigate();
 
-    const summaryCards = [
-        { title: "Employees", icon: UserGroupIcon, value: "154", color: "bg-blue-500" },
-        { title: "Companies", icon: BuildingOffice2Icon, value: "12", color: "bg-green-500" },
-        { title: "Payroll (₹)", icon: BanknotesIcon, value: "₹4.2M", color: "bg-yellow-500" },
-    ];
+  const adminStats = [
+    { title: "Total Employees", value: "156", change: "+12", icon: UserGroupIcon, color: "from-blue-500 to-blue-600" },
+    { title: "Departments", value: "8", change: "+1", icon: BuildingOfficeIcon, color: "from-purple-500 to-purple-600" },
+    { title: "Monthly Revenue", value: "$2.4M", change: "+8%", icon: CurrencyDollarIcon, color: "from-green-500 to-green-600" },
+    { title: "System Health", value: "99.9%", change: "+0.1%", icon: ShieldCheckIcon, color: "from-emerald-500 to-emerald-600" },
+  ];
 
-    const exceptionCards = [
-        { label: "Arrived Early", value: 17, color: "bg-orange-500" },
-        { label: "Arrived Late", value: 2, color: "bg-red-500" },
-        { label: "Left Early", value: 0, color: "bg-purple-500" },
-        { label: "Left Late", value: 0, color: "bg-indigo-500" },
-        { label: "No Show", value: 27, color: "bg-yellow-500" },
-        { label: "Missing Punch", value: 0, color: "bg-pink-500" },
-    ];
+  const departmentData = [
+    { name: "Engineering", employees: 45, budget: "$450K", utilization: 92 },
+    { name: "Sales", employees: 32, budget: "$320K", utilization: 88 },
+    { name: "Marketing", employees: 28, budget: "$280K", utilization: 85 },
+    { name: "HR", employees: 15, budget: "$150K", utilization: 78 },
+    { name: "Finance", employees: 12, budget: "$120K", utilization: 95 },
+  ];
 
-    const pieData = [
-        { name: "Engineering", value: 60 },
-        { name: "HR", value: 25 },
-        { name: "Sales", value: 40 },
-        { name: "Admin", value: 29 },
-    ];
+  const systemAlerts = [
+    { type: "info", message: "System backup completed successfully", time: "2 hours ago" },
+    { type: "warning", message: "High server load detected", time: "4 hours ago" },
+    { type: "success", message: "New security patch installed", time: "1 day ago" },
+  ];
 
-    const payrollPieData = [
-        { name: "Basic Salary", value: 50 },
-        { name: "HRA", value: 20 },
-        { name: "Bonus", value: 15 },
-        { name: "Deductions", value: 15 },
-    ];
+  const getAlertIcon = (type) => {
+    switch (type) {
+      case "info": return "ℹ️";
+      case "warning": return "⚠️";
+      case "success": return "✅";
+      default: return "📋";
+    }
+  };
 
-    const barData = [
-        { day: "Mon", total: 390 },
-        { day: "Tue", total: 400 },
-        { day: "Wed", total: 380 },
-        { day: "Thu", total: 390 },
-        { day: "Fri", total: 370 },
-    ];
+  const getAlertColor = (type) => {
+    switch (type) {
+      case "info": return "bg-blue-50 border-blue-200";
+      case "warning": return "bg-yellow-50 border-yellow-200";
+      case "success": return "bg-green-50 border-green-200";
+      default: return "bg-gray-50 border-gray-200";
+    }
+  };
 
-    const employees = [
-        { name: "Adrian Maranje", status: "WORKING", time: "8:45 AM" },
-        { name: "Alexis Gonzalez", status: "WORKING", time: "9:00 AM" },
-        { name: "Brianna Talley", status: "WORKING", time: "8:45 AM" },
-    ];
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-gray-50 to-zinc-50 p-6">
+      {/* Header */}
+      <div className="mb-8">
+        <Typography variant="h3" className="font-bold text-gray-800 mb-2">
+          Admin Dashboard 🎛️
+        </Typography>
+        <Typography variant="lead" className="text-gray-600">
+          Complete system oversight and control
+        </Typography>
+      </div>
 
-    const approachingOvertime = [
-        {
-            name: "Christopher Casely",
-            avatar: "https://i.pravatar.cc/40?img=14",
-            hours: "30:20 (Weekly)",
-            approaching: "9h 39m to OT1",
-            status: "Working",
-        },
-    ];
+      {/* Stats Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-8">
+        {adminStats.map((stat, index) => (
+          <Card key={index} className="shadow-xl hover:shadow-2xl transition-all duration-300 border-0 bg-white/90 backdrop-blur-sm">
+            <CardBody className="p-6">
+              <div className={`w-16 h-16 rounded-2xl bg-gradient-to-r ${stat.color} flex items-center justify-center mb-4`}>
+                <stat.icon className="h-8 w-8 text-white" />
+              </div>
+              <Typography variant="h4" className="font-bold text-gray-800 mb-1">
+                {stat.value}
+              </Typography>
+              <Typography variant="small" className="text-gray-600 mb-2">
+                {stat.title}
+              </Typography>
+              <div className="flex items-center">
+                <span className={`text-sm font-medium ${stat.change.startsWith('+') ? 'text-green-600' : 'text-blue-600'}`}>
+                  {stat.change}
+                </span>
+                <span className="text-xs text-gray-500 ml-1">this month</span>
+              </div>
+            </CardBody>
+          </Card>
+        ))}
+      </div>
 
-    const timeOffRequests = [
-        {
-            name: "Kalina Jaime",
-            avatar: "https://i.pravatar.cc/40?img=15",
-            hours: "16 Hr(s)",
-            date: "Nov 18 → Nov 19",
-            type: "Vacation",
-        },
-        {
-            name: "Natalia Krasnova",
-            avatar: "https://i.pravatar.cc/40?img=16",
-            hours: "8 Hr(s)",
-            date: "Oct 8, 2021",
-            type: "Floating Holiday",
-        },
-    ];
+      {/* Admin Controls */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+        <Card className="shadow-xl hover:shadow-2xl transition-all duration-300 border-0 bg-white/90 backdrop-blur-sm">
+          <CardHeader floated={false} color="transparent" className="m-0 p-6">
+            <Typography variant="h6" className="font-bold text-gray-800">
+              🔧 System Controls
+            </Typography>
+          </CardHeader>
+          <CardBody className="pt-0 space-y-3">
+            <Button
+              onClick={() => navigate("/dashboard/employee")}
+              variant="gradient"
+              color="blue"
+              className="w-full justify-start"
+            >
+              <UserGroupIcon className="h-5 w-5 mr-3" />
+              Manage Users
+            </Button>
+            <Button
+              onClick={() => navigate("/dashboard/payroll")}
+              variant="gradient"
+              color="green"
+              className="w-full justify-start"
+            >
+              <CurrencyDollarIcon className="h-5 w-5 mr-3" />
+              Payroll System
+            </Button>
+            <Button
+              variant="gradient"
+              color="purple"
+              className="w-full justify-start"
+            >
+              <Cog6ToothIcon className="h-5 w-5 mr-3" />
+              System Settings
+            </Button>
+            <Button
+              variant="gradient"
+              color="orange"
+              className="w-full justify-start"
+            >
+              <DocumentTextIcon className="h-5 w-5 mr-3" />
+              Generate Reports
+            </Button>
+          </CardBody>
+        </Card>
 
-    return (
-        <div className="p-6 space-y-10">
-            {/* Summary Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {summaryCards.map(({ title, icon, value, color }, i) => (
-                    <Card key={i} className="p-4">
-                        <div className="flex items-center gap-4">
-                            <div className={`p-3 rounded-full text-white ${color}`}>
-                                {React.createElement(icon, { className: "h-6 w-6" })}
-                            </div>
-                            <div>
-                                <Typography variant="h6">{title}</Typography>
-                                <Typography variant="h4" className="font-bold">
-                                    {value}
-                                </Typography>
-                            </div>
-                        </div>
-                    </Card>
-                ))}
-            </div>
-
-            {/* Charts Row */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {/* Payroll Pie Chart */}
-                <Card className="p-4">
-                    <Typography variant="h6" className="mb-2">
-                        Payroll Breakdown
+        <Card className="shadow-xl hover:shadow-2xl transition-all duration-300 border-0 bg-white/90 backdrop-blur-sm">
+          <CardHeader floated={false} color="transparent" className="m-0 p-6">
+            <Typography variant="h6" className="font-bold text-gray-800">
+              🏢 Department Overview
+            </Typography>
+          </CardHeader>
+          <CardBody className="pt-0">
+            <div className="space-y-4">
+              {departmentData.slice(0, 3).map((dept, index) => (
+                <div key={index} className="p-4 bg-gray-50 rounded-xl">
+                  <div className="flex justify-between items-center mb-2">
+                    <Typography variant="small" className="font-semibold text-gray-800">
+                      {dept.name}
                     </Typography>
-                    <ResponsiveContainer width="100%" height={250}>
-                        <PieChart>
-                            <Pie
-                                data={payrollPieData}
-                                cx="50%"
-                                cy="50%"
-                                outerRadius={80}
-                                dataKey="value"
-                                label
-                            >
-                                {payrollPieData.map((_, i) => (
-                                    <Cell key={i} fill={COLORS[i % COLORS.length]} />
-                                ))}
-                            </Pie>
-                            <Tooltip />
-                            <Legend />
-                        </PieChart>
-                    </ResponsiveContainer>
-                </Card>
-
-                {/* Scheduled Hours Bar Chart */}
-                <Card className="p-4">
-                    <Typography variant="h6" className="mb-2">
-                        Scheduled Hours
+                    <Typography variant="small" className="text-gray-600">
+                      {dept.employees} employees
                     </Typography>
-                    <ResponsiveContainer width="100%" height={200}>
-                        <BarChart data={barData}>
-                            <XAxis dataKey="day" />
-                            <YAxis />
-                            <Tooltip />
-                            <Bar dataKey="total" fill="#0ea5e9" />
-                        </BarChart>
-                    </ResponsiveContainer>
-                </Card>
+                  </div>
+                  <div className="flex justify-between items-center mb-2">
+                    <Typography variant="small" className="text-gray-600">
+                      Budget: {dept.budget}
+                    </Typography>
+                    <Typography variant="small" className="text-gray-600">
+                      {dept.utilization}%
+                    </Typography>
+                  </div>
+                  <Progress value={dept.utilization} color="blue" className="h-2" />
+                </div>
+              ))}
             </div>
+          </CardBody>
+        </Card>
 
-            {/* Exception Cards + Employee Status in 1 row */}
-            <div className="md:flex md:gap-6 space-y-6 md:space-y-0">
-                {/* Exception Cards Scrollable */}
-                <Card className="md:w-1/2 w-full overflow-x-auto p-4">
-                    <Typography variant="h6" className="mb-4">Exceptions</Typography>
-                    <div className="flex flex-wrap gap-4">
-                        {exceptionCards.map(({ label, value, color }, i) => (
-                            <div key={i} className={`w-[45%] min-w-[130px] p-4 rounded text-white ${color}`}>
-                                <Typography variant="h6">{value}</Typography>
-                                <Typography variant="small">{label}</Typography>
-                            </div>
-                        ))}
-                    </div>
-                </Card>
-
-                {/* Employee Status Table */}
-                <Card className="md:w-1/2 w-full p-4">
-                    <Typography variant="h6" className="mb-4">Employee Status</Typography>
-                    <div className="overflow-x-auto">
-                        <table className="w-full text-left">
-                            <thead>
-                                <tr>
-                                    <th className="p-2">Name</th>
-                                    <th className="p-2">Status</th>
-                                    <th className="p-2">Time</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {employees.map((e, i) => (
-                                    <tr key={i} className="border-b hover:bg-gray-100">
-                                        <td className="p-2">{e.name}</td>
-                                        <td className="p-2 text-green-600">{e.status}</td>
-                                        <td className="p-2">{e.time}</td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-                </Card>
+        <Card className="shadow-xl hover:shadow-2xl transition-all duration-300 border-0 bg-white/90 backdrop-blur-sm">
+          <CardHeader floated={false} color="transparent" className="m-0 p-6">
+            <Typography variant="h6" className="font-bold text-gray-800">
+              📊 Key Metrics
+            </Typography>
+          </CardHeader>
+          <CardBody className="pt-0 space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div className="text-center p-4 bg-blue-50 rounded-xl">
+                <Typography variant="h5" className="font-bold text-blue-600">
+                  94%
+                </Typography>
+                <Typography variant="small" className="text-blue-800">
+                  Attendance Rate
+                </Typography>
+              </div>
+              <div className="text-center p-4 bg-green-50 rounded-xl">
+                <Typography variant="h5" className="font-bold text-green-600">
+                  98%
+                </Typography>
+                <Typography variant="small" className="text-green-800">
+                  Satisfaction
+                </Typography>
+              </div>
+              <div className="text-center p-4 bg-purple-50 rounded-xl">
+                <Typography variant="h5" className="font-bold text-purple-600">
+                  87%
+                </Typography>
+                <Typography variant="small" className="text-purple-800">
+                  Productivity
+                </Typography>
+              </div>
+              <div className="text-center p-4 bg-orange-50 rounded-xl">
+                <Typography variant="h5" className="font-bold text-orange-600">
+                  12%
+                </Typography>
+                <Typography variant="small" className="text-orange-800">
+                  Turnover Rate
+                </Typography>
+              </div>
             </div>
+          </CardBody>
+        </Card>
+      </div>
 
-            {/* Approaching Overtime */}
-            <Card className="p-4">
-                <Typography variant="h6" className="mb-4">Approaching Overtime</Typography>
-                <table className="w-full text-left">
-                    <thead>
-                        <tr>
-                            <th className="p-2">Name</th>
-                            <th className="p-2">Worked Hours</th>
-                            <th className="p-2">Approaching</th>
-                            <th className="p-2">Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {approachingOvertime.map((e, i) => (
-                            <tr key={i} className="border-b hover:bg-gray-50">
-                                <td className="p-2 flex items-center gap-2">
-                                    <Avatar src={e.avatar} size="sm" />
-                                    {e.name}
-                                </td>
-                                <td className="p-2">{e.hours}</td>
-                                <td className="p-2">{e.approaching}</td>
-                                <td className="p-2 text-green-600">{e.status}</td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </Card>
+      {/* System Alerts & Recent Activities */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <Card className="shadow-xl hover:shadow-2xl transition-all duration-300 border-0 bg-white/90 backdrop-blur-sm">
+          <CardHeader floated={false} color="transparent" className="m-0 p-6">
+            <Typography variant="h6" className="font-bold text-gray-800">
+              🚨 System Alerts
+            </Typography>
+          </CardHeader>
+          <CardBody className="pt-0">
+            <div className="space-y-4">
+              {systemAlerts.map((alert, index) => (
+                <div key={index} className={`p-4 rounded-xl border-2 ${getAlertColor(alert.type)}`}>
+                  <div className="flex items-start space-x-3">
+                    <div className="text-xl">{getAlertIcon(alert.type)}</div>
+                    <div className="flex-1">
+                      <Typography variant="small" className="font-medium text-gray-800">
+                        {alert.message}
+                      </Typography>
+                      <Typography variant="small" className="text-gray-600 mt-1">
+                        {alert.time}
+                      </Typography>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </CardBody>
+        </Card>
 
-            {/* Time Off Requests */}
-            <Card className="p-4">
-                <Typography variant="h6" className="mb-4">Time Off Requests</Typography>
-                <table className="w-full text-left">
-                    <thead>
-                        <tr>
-                            <th className="p-2">Name</th>
-                            <th className="p-2">Type</th>
-                            <th className="p-2">Duration</th>
-                            <th className="p-2">Date</th>
-                            <th className="p-2 text-right">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {timeOffRequests.map((e, i) => (
-                            <tr key={i} className="border-b hover:bg-gray-50">
-                                <td className="p-2 flex items-center gap-2">
-                                    <Avatar src={e.avatar} size="sm" />
-                                    {e.name}
-                                </td>
-                                <td className="p-2">{e.type}</td>
-                                <td className="p-2">{e.hours}</td>
-                                <td className="p-2">{e.date}</td>
-                                <td className="p-2 text-right">
-                                    <Button size="sm" color="green" className="mr-2">Approve</Button>
-                                    <Button size="sm" color="red">Deny</Button>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </Card>
-        </div>
-    );
+        <Card className="shadow-xl hover:shadow-2xl transition-all duration-300 border-0 bg-white/90 backdrop-blur-sm">
+          <CardHeader floated={false} color="transparent" className="m-0 p-6">
+            <Typography variant="h6" className="font-bold text-gray-800">
+              📈 Performance Analytics
+            </Typography>
+          </CardHeader>
+          <CardBody className="pt-0">
+            <div className="space-y-6">
+              <div className="text-center p-6 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl">
+                <ChartBarIcon className="h-12 w-12 text-blue-500 mx-auto mb-2" />
+                <Typography variant="h4" className="font-bold text-gray-800">
+                  Revenue Growth
+                </Typography>
+                <Typography variant="h6" className="text-green-600 font-semibold">
+                  +15.3%
+                </Typography>
+                <Typography variant="small" className="text-gray-600">
+                  Compared to last quarter
+                </Typography>
+              </div>
+              
+              <div className="space-y-3">
+                <div className="flex justify-between items-center">
+                  <span className="text-sm font-medium text-gray-700">Employee Satisfaction</span>
+                  <span className="text-sm text-gray-600">98%</span>
+                </div>
+                <Progress value={98} color="green" className="h-2" />
+                
+                <div className="flex justify-between items-center">
+                  <span className="text-sm font-medium text-gray-700">System Uptime</span>
+                  <span className="text-sm text-gray-600">99.9%</span>
+                </div>
+                <Progress value={99.9} color="blue" className="h-2" />
+                
+                <div className="flex justify-between items-center">
+                  <span className="text-sm font-medium text-gray-700">Security Score</span>
+                  <span className="text-sm text-gray-600">95%</span>
+                </div>
+                <Progress value={95} color="purple" className="h-2" />
+              </div>
+            </div>
+          </CardBody>
+        </Card>
+      </div>
+    </div>
+  );
 }
+
+export default AdminDashboard;

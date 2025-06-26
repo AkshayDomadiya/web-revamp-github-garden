@@ -1,3 +1,4 @@
+
 import { Routes, Route } from "react-router-dom";
 import { Cog6ToothIcon } from "@heroicons/react/24/solid";
 import { IconButton } from "@material-tailwind/react";
@@ -7,7 +8,7 @@ import {
   Configurator,
   Footer,
 } from "@/widgets/layout";
-import allRoutes from "@/routes"; // renamed to avoid collision
+import routes from "@/routes";
 import { useMaterialTailwindController, setOpenConfigurator } from "@/context";
 
 export function Dashboard() {
@@ -15,28 +16,53 @@ export function Dashboard() {
   const { sidenavType } = controller;
 
   // Get user role from localStorage
-  const user = JSON.parse(localStorage.getItem("user"));
-  const role = user?.role || "guest";
+  const user = (() => {
+    try {
+      const userData = localStorage.getItem("user");
+      return userData ? JSON.parse(userData) : null;
+    } catch {
+      return null;
+    }
+  })();
+  
+  const userRole = user?.role || "user";
 
-  // Filter routes based on role
-  const routes = getRoutesByRole(allRoutes, role);
+  // Filter routes based on user role
+  const getFilteredRoutes = (routes) => {
+    return routes.map(section => ({
+      ...section,
+      pages: section.pages.filter(page => 
+        page.roles && page.roles.includes(userRole)
+      )
+    }));
+  };
+
+  const filteredRoutes = getFilteredRoutes(routes);
 
   return (
-    <div className="min-h-screen bg-blue-gray-50/50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-100 via-gray-50 to-zinc-100">
       <Sidenav
-        routes={routes}
-        brandImg={
-          sidenavType === "dark" ? "/img/logo-ct.png" : "/img/logo-ct-dark.png"
-        }
+        routes={filteredRoutes}
+        brandName="Employee Clock"
       />
-      <div className="p-4 xl:ml-80">
+      <div className="p-4 xl:ml-80 transition-all duration-300">
         <DashboardNavbar />
+        <Configurator />
+        <IconButton
+          size="lg"
+          color="white"
+          className="fixed bottom-8 right-8 z-40 rounded-full shadow-blue-gray-900/10 hover:shadow-xl transition-all duration-300 animate-bounce-slow"
+          ripple={false}
+          onClick={() => setOpenConfigurator(dispatch, true)}
+        >
+          <Cog6ToothIcon className="h-5 w-5 animate-spin-slow" />
+        </IconButton>
         <Routes>
-          {routes.map(
+          {filteredRoutes.map(
             ({ layout, pages }) =>
               layout === "dashboard" &&
-              pages.map(({ path, element }, key) => (
-                <Route key={key} exact path={path} element={element} />
+              pages.map(({ path, element }) => (
+                <Route key={path} path={path} element={element} />
               ))
           )}
         </Routes>
@@ -48,15 +74,5 @@ export function Dashboard() {
   );
 }
 
-// Helper: filter routes by role
-const getRoutesByRole = (routes, role) => {
-  return routes.map((section) => {
-    const filteredPages = section.pages.filter((page) =>
-      page.roles?.includes(role)
-    );
-    return { ...section, pages: filteredPages };
-  });
-};
-
-Dashboard.displayName = "/src/layout/dashboard.jsx";
+Dashboard.displayName = "/src/layouts/dashboard.jsx";
 export default Dashboard;

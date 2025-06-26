@@ -1,3 +1,4 @@
+
 import { Routes, Route, Navigate } from "react-router-dom";
 import { Dashboard, Auth } from "@/layouts";
 import { SignIn, ForgotPassword } from "./pages/auth";
@@ -10,7 +11,6 @@ function App() {
     <Routes>
       <Route path="/dashboard/*" element={<Dashboard />} />
       <Route path="/dashboard/profile" element={<Profile />} />
-      {/* <Route path="/employee/:id" element={<EmployeeDetails />} /> */}
       <Route path="/auth/*" element={<Auth />} />
       <Route path="/auth/sign-in" element={<SignIn />} />
       <Route path="/auth/forgot-password" element={<ForgotPassword />} />

@@ -35,7 +35,7 @@ export function HRDashboard() {
     { name: "Emma Davis", action: "completed timesheet", time: "2 hours ago", type: "timesheet" },
   ];
 
-  const getActivityIcon = (type: string) => {
+  const getActivityIcon = (type) => {
     switch (type) {
       case "leave": return "🏖️";
       case "clock": return "⏰";

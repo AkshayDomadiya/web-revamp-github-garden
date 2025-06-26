@@ -1,3 +1,5 @@
+
+import React from "react";
 import {
   HomeIcon,
   TableCellsIcon,
@@ -19,14 +21,17 @@ import LeaveRequest from "./pages/dashboard/LeaveRequest";
 import ApprovedLeavesScreen from "./pages/dashboard/ApprovedLeavesScreen";
 import PendingLeavesScreen from "./pages/dashboard/PendingLeavesScreen";
 import TodaysClockInsScreen from "./pages/dashboard/TodaysClockInsScreen";
-import LateArrivalsScreen from "./pages/dashboard/LateArrivalsScreen";  // Import new screen
+import LateArrivalsScreen from "./pages/dashboard/LateArrivalsScreen";
 import UpcomingHolidaysScreen from "./pages/dashboard/UpcomingHolidaysScreen";
 import LeaveSummaryScreen from "./pages/dashboard/LeaveSummaryScreen";
 import Payroll from "./pages/dashboard/Payroll";
 import AddPayroll from "./pages/dashboard/AddPayroll";
+import UserDashboard from "./pages/dashboard/UserDashboard";
+import HRDashboard from "./pages/dashboard/HRDashboard";
+import ManagerDashboard from "./pages/dashboard/ManagerDashboard";
 import AdminDashboard from "./pages/dashboard/AdminDashboard";
 
-const icon = {
+const iconProps = {
   className: "w-5 h-5 text-inherit",
 };
 
@@ -35,82 +40,83 @@ export const routes = [
     layout: "dashboard",
     pages: [
       {
-        icon: <HomeIcon {...icon} />,
+        icon: <HomeIcon {...iconProps} />,
         name: "dashboard",
         path: "/home",
         element: <Home />,
-        roles: ["user", "hr", "manager"], // All roles
+        roles: ["user", "hr", "manager", "admin"],
       },
       {
-        icon: <HomeIcon {...icon} />,
-        name: "dashboard",
+        icon: <HomeIcon {...iconProps} />,
+        name: "admin dashboard",
         path: "/home",
         element: <AdminDashboard />,
-        roles: ["admin"], // All roles
+        roles: ["admin"],
       },
       {
-        icon: <TableCellsIcon {...icon} />,
-        name: "Employee",
+        icon: <TableCellsIcon {...iconProps} />,
+        name: "employees",
         path: "/employee",
         element: <Employee />,
-        roles: ["admin", "hr", "manager"], // No basic users
+        roles: ["admin", "hr", "manager"],
       },
       {
-        icon: <CalendarDaysIcon {...icon} />,
-        name: "Payroll",
+        icon: <CalendarDaysIcon {...iconProps} />,
+        name: "payroll",
         path: "/payroll",
         element: <Payroll />,
         roles: ["admin", "hr"],
       },
       {
-        icon: <CalendarDaysIcon {...icon} />,
-        name: "Schedule",
+        icon: <CalendarDaysIcon {...iconProps} />,
+        name: "schedule",
         path: "/schedule",
         element: <ScheduleScreen />,
         roles: ["admin", "manager", "user"],
       },
       {
-        icon: <ClipboardDocumentIcon {...icon} />,
-        name: "Leave Request",
+        icon: <ClipboardDocumentIcon {...iconProps} />,
+        name: "leave request",
         path: "/leave-request",
         element: <LeaveRequest />,
         roles: ["user", "hr", "manager"],
       },
       {
-        icon: <ClipboardIcon {...icon} />,
-        name: "Approved Leaves",
+        icon: <ClipboardIcon {...iconProps} />,
+        name: "approved leaves",
         path: "/approved-leaves",
         element: <ApprovedLeavesScreen />,
         roles: ["admin", "hr"],
       },
       {
-        icon: <ClockIcon {...icon} />,
-        name: "Pending Leaves",
+        icon: <ClockIcon {...iconProps} />,
+        name: "pending leaves",
         path: "/pending-leaves",
         element: <PendingLeavesScreen />,
         roles: ["admin", "hr"],
       },
       {
-        icon: <UserGroupIcon {...icon} />,
-        name: "Todays Clock-ins",
+        icon: <UserGroupIcon {...iconProps} />,
+        name: "today's clock-ins",
         path: "/todays-clock-ins",
         element: <TodaysClockInsScreen />,
         roles: ["admin", "manager"],
       },
       {
-        icon: <ExclamationCircleIcon {...icon} />,
-        name: "Late Arrivals",
+        icon: <ExclamationCircleIcon {...iconProps} />,
+        name: "late arrivals",
         path: "/late-arrivals",
         element: <LateArrivalsScreen />,
         roles: ["admin", "manager"],
       },
       {
-        icon: <CalendarIcon {...icon} />,
-        name: "Upcoming Holidays",
+        icon: <CalendarIcon {...iconProps} />,
+        name: "upcoming holidays",
         path: "/upcoming-holidays",
         element: <UpcomingHolidaysScreen />,
         roles: ["admin", "user", "hr", "manager"],
       },
+      // Hidden routes (no icon/name for sidebar)
       {
         path: "employee/add",
         element: <AddEmployee />,

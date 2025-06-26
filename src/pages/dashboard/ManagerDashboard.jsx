@@ -41,7 +41,7 @@ export function ManagerDashboard() {
     { project: "API Integration", deadline: "Dec 25", priority: "Low" },
   ];
 
-  const getPriorityColor = (priority: string) => {
+  const getPriorityColor = (priority) => {
     switch (priority) {
       case "High": return "bg-red-100 text-red-800";
       case "Medium": return "bg-yellow-100 text-yellow-800";
