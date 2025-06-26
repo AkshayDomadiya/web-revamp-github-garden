@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.to-gray-800 {
+    --tw-gradient-to: #35a0da var(--tw-gradient-to-position);
+}
+
+.from-gray-900 {
+    --tw-gradient-from: #0170ad var(--tw-gradient-from-position);
+    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+
+.max-w-\[40\%\] {
+    max-width: 40%;
+}
+
+.bg-blue-900 {
+    --tw-bg-opacity: 1;
+    background-color: rgb(56 109 132);
+}
