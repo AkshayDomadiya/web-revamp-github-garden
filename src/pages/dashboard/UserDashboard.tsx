@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import {
   Typography,
@@ -16,7 +15,6 @@ import {
   PlayIcon,
   PauseIcon,
   StopIcon,
-  CoffeeIcon,
 } from "@heroicons/react/24/solid";
 import { useNavigate } from "react-router-dom";
 
@@ -100,7 +98,7 @@ export function UserDashboard() {
                     }`}
                     size="lg"
                   >
-                    <CoffeeIcon className="h-5 w-5" />
+                    <PauseIcon className="h-5 w-5" />
                     {onBreak ? "End Break" : "Start Break"}
                   </Button>
                   <Button
