@@ -1,4 +1,3 @@
-
 import React from "react";
 import {
   HomeIcon,
@@ -26,6 +25,9 @@ import UpcomingHolidaysScreen from "./pages/dashboard/UpcomingHolidaysScreen";
 import LeaveSummaryScreen from "./pages/dashboard/LeaveSummaryScreen";
 import Payroll from "./pages/dashboard/Payroll";
 import AddPayroll from "./pages/dashboard/AddPayroll";
+import UserDashboard from "./pages/dashboard/UserDashboard";
+import HRDashboard from "./pages/dashboard/HRDashboard";
+import ManagerDashboard from "./pages/dashboard/ManagerDashboard";
 import AdminDashboard from "./pages/dashboard/AdminDashboard";
 
 export type UserRole = "user" | "hr" | "manager" | "admin";
@@ -57,7 +59,7 @@ export const routes: RouteSection[] = [
         name: "dashboard",
         path: "/home",
         element: <Home />,
-        roles: ["user", "hr", "manager"],
+        roles: ["user", "hr", "manager", "admin"],
       },
       {
         icon: <HomeIcon {...iconProps} />,
