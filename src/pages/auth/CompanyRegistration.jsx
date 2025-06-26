@@ -1,9 +1,12 @@
-import React, { useState, useEffect, useRef } from "react";
+
+import React, { useState, useEffect } from "react";
 import {
   Input,
   Button,
   Typography,
   Textarea,
+  Card,
+  CardBody,
 } from "@material-tailwind/react";
 import {
   MapContainer,
@@ -16,16 +19,21 @@ import {
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "esri-leaflet-geocoder/dist/esri-leaflet-geocoder.css";
-import * as LEsri from "esri-leaflet"; // for featureLayer()
-import * as ELG from "esri-leaflet-geocoder"; // for geosearch()
+import * as ELG from "esri-leaflet-geocoder";
 import { useNavigate } from "react-router-dom";
-import { MapPinIcon, PlusIcon } from "@heroicons/react/24/solid";
+import { 
+  MapPinIcon, 
+  PlusIcon, 
+  BuildingOfficeIcon,
+  UserIcon,
+  MapIcon,
+  CheckCircleIcon
+} from "@heroicons/react/24/solid";
 
-// Fix marker icon issue
+// Fix marker icon
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
-  iconRetinaUrl:
-    "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
+  iconRetinaUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
   iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
   shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
 });
@@ -54,7 +62,7 @@ function SearchBox({ onSelect }) {
         const { latlng } = data.results[0];
         results.addLayer(L.marker(latlng));
         map.setView(latlng, 14);
-        onSelect(latlng); // sends selected coordinates to parent
+        onSelect(latlng);
       }
     });
 
@@ -77,7 +85,6 @@ export function CompanyRegistration() {
     state: "",
     country: "",
     phone: "",
-    createdAt: "",
     email: "",
     branches: "",
     latitude: "",
@@ -85,37 +92,36 @@ export function CompanyRegistration() {
     radius: "",
     contactPersonFirstName: "",
     contactPersonLastName: "",
-    additionalInfo: "",
-    hasBranch: "No", // default to "No"
-    branchLatitude: "",
-    branchLongitude: "",
-    branchRadius: "",
+    hasBranch: "No",
   });
 
   const [branchLocations, setBranchLocations] = useState([
     { latitude: "", longitude: "", radius: "" },
   ]);
 
-  const addBranchLocation = () => {
-    setBranchLocations([...branchLocations, { latitude: "", longitude: "", radius: "" }]);
-  };
+  const steps = [
+    { number: 1, title: "Company Info", icon: BuildingOfficeIcon },
+    { number: 2, title: "Contact Details", icon: UserIcon },
+    { number: 3, title: "Personal Info", icon: UserIcon },
+    { number: 4, title: "Location", icon: MapIcon },
+    { number: 5, title: "Branch Setup", icon: MapPinIcon },
+  ];
 
-
-  const steps = ["Company", "Details", "Contact", "Location", "Branch Info"];
   const handleNext = () => {
     if (validateStep()) {
       setStep((prev) => Math.min(prev + 1, steps.length));
     }
   };
+
   const handleBack = () => setStep((prev) => Math.max(prev - 1, 1));
+
   const handleChange = (field, value) =>
     setFormData((prev) => ({ ...prev, [field]: value }));
 
   const handleSignUp = (e) => {
     e.preventDefault();
-
     if (validateStep()) {
-      console.log("Final form data:", formData); // optional for debug
+      console.log("Registration completed:", formData);
       navigate("/dashboard/home");
     }
   };
@@ -128,125 +134,133 @@ export function CompanyRegistration() {
         return false;
       }
     }
-
     return true;
+  };
+
+  const addBranchLocation = () => {
+    setBranchLocations([...branchLocations, { latitude: "", longitude: "", radius: "" }]);
   };
 
   const renderStep = () => {
     switch (step) {
       case 1:
         return (
-          <div className="space-y-4">
+          <div className="space-y-6">
             <Input
+              size="lg"
               label="Company Name"
               value={formData.companyName}
               onChange={(e) => handleChange("companyName", e.target.value)}
+              className="focus:border-indigo-500"
             />
             <Textarea
-              label="Address"
+              size="lg"
+              label="Company Address"
               value={formData.address}
               onChange={(e) => handleChange("address", e.target.value)}
+              className="focus:border-indigo-500"
             />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <Input
+                size="lg"
+                label="City"
+                value={formData.city}
+                onChange={(e) => handleChange("city", e.target.value)}
+                className="focus:border-indigo-500"
+              />
+              <Input
+                size="lg"
+                label="State"
+                value={formData.state}
+                onChange={(e) => handleChange("state", e.target.value)}
+                className="focus:border-indigo-500"
+              />
+            </div>
             <Input
-              label="City"
-              value={formData.city}
-              onChange={(e) => handleChange("city", e.target.value)}
-            />
-            <Input
-              label="State"
-              value={formData.state}
-              onChange={(e) => handleChange("state", e.target.value)}
-            />
-            <Input
+              size="lg"
               label="Country"
               value={formData.country}
               onChange={(e) => handleChange("country", e.target.value)}
+              className="focus:border-indigo-500"
             />
           </div>
         );
       case 2:
         return (
-          <div className="space-y-4">
+          <div className="space-y-6">
             <Input
-              label="Email"
+              size="lg"
+              label="Company Email"
               type="email"
               value={formData.email}
               onChange={(e) => handleChange("email", e.target.value)}
+              className="focus:border-indigo-500"
             />
             <Input
-              label="Phone"
+              size="lg"
+              label="Phone Number"
               value={formData.phone}
               onChange={(e) => handleChange("phone", e.target.value)}
+              className="focus:border-indigo-500"
             />
             <Input
-              label="Branches"
+              size="lg"
+              label="Number of Branches"
               value={formData.branches}
               onChange={(e) => handleChange("branches", e.target.value)}
+              className="focus:border-indigo-500"
             />
           </div>
         );
       case 3:
         return (
-          <div className="space-y-4">
-            <Input
-              label="Contact Person First Name"
-              value={formData.contactPersonFirstName}
-              onChange={(e) =>
-                handleChange("contactPersonFirstName", e.target.value)
-              }
-            />
-            <Input
-              label="Contact Person Last Name"
-              value={formData.contactPersonLastName}
-              onChange={(e) =>
-                handleChange("contactPersonLastName", e.target.value)
-              }
-            />
+          <div className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <Input
+                size="lg"
+                label="Contact Person First Name"
+                value={formData.contactPersonFirstName}
+                onChange={(e) => handleChange("contactPersonFirstName", e.target.value)}
+                className="focus:border-indigo-500"
+              />
+              <Input
+                size="lg"
+                label="Contact Person Last Name"
+                value={formData.contactPersonLastName}
+                onChange={(e) => handleChange("contactPersonLastName", e.target.value)}
+                className="focus:border-indigo-500"
+              />
+            </div>
           </div>
         );
       case 4:
         return (
           <div className="space-y-6">
+            <div className="text-center mb-6">
+              <MapIcon className="w-12 h-12 text-indigo-600 mx-auto mb-4" />
+              <Typography variant="h6" className="text-gray-800 font-semibold">
+                Set Your Office Location
+              </Typography>
+              <Typography variant="small" className="text-gray-600">
+                Click on the map or search to select your office location
+              </Typography>
+            </div>
 
             <Input
-              label="Radius (m)"
+              size="lg"
+              label="Allowed Radius (meters)"
               type="number"
               min="0"
               value={formData.radius}
               onChange={(e) => handleChange("radius", e.target.value)}
+              className="focus:border-indigo-500"
             />
 
-            <div className="flex items-center space-x-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-6 h-6 text-blue-700"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"
-                />
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M19.5 10.5c0 7.5-7.5 11.25-7.5 11.25S4.5 18 4.5 10.5a7.5 7.5 0 1115 0z"
-                />
-              </svg>
-              <Typography variant="h6" className="text-blue-800">
-                Select or Search Your Office Location
-              </Typography>
-            </div>
-
-            <div className="rounded-xl overflow-hidden border border-blue-100 shadow-sm">
+            <Card className="overflow-hidden border border-gray-200">
               <MapContainer
                 center={[20.5937, 78.9629]}
                 zoom={4}
-                style={{ height: "300px", width: "100%" }}
-                className="rounded-xl"
+                style={{ height: "350px", width: "100%" }}
               >
                 <TileLayer
                   attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a>'
@@ -270,23 +284,25 @@ export function CompanyRegistration() {
                     {formData.radius && (
                       <Circle
                         center={[formData.latitude, formData.longitude]}
-                        radius={parseFloat(formData.radius)} // already in meters
-                        pathOptions={{ color: "blue", fillColor: "#60A5FA", fillOpacity: 0.3 }}
+                        radius={parseFloat(formData.radius)}
+                        pathOptions={{ color: "indigo", fillColor: "#6366f1", fillOpacity: 0.2 }}
                       />
                     )}
                   </>
                 )}
               </MapContainer>
-            </div>
+            </Card>
 
             <div className="grid grid-cols-2 gap-4">
               <Input
+                size="lg"
                 label="Latitude"
                 value={formData.latitude}
                 readOnly
                 className="bg-gray-50"
               />
               <Input
+                size="lg"
                 label="Longitude"
                 value={formData.longitude}
                 readOnly
@@ -298,57 +314,59 @@ export function CompanyRegistration() {
       case 5:
         return (
           <div className="space-y-6">
-            <Typography variant="h6" className="text-blue-900">Do you have a branch?</Typography>
-            <div className="flex space-x-4">
-              <Button
-                variant={formData.hasBranch === "Yes" ? "filled" : "outlined"}
-                color="green"
-                onClick={() => handleChange("hasBranch", "Yes")}
-              >
-                Yes
-              </Button>
-              <Button
-                variant={formData.hasBranch === "No" ? "filled" : "outlined"}
-                color="red"
-                onClick={() => handleChange("hasBranch", "No")}
-              >
-                No
-              </Button>
+            <div className="text-center mb-6">
+              <Typography variant="h6" className="text-gray-800 font-semibold mb-4">
+                Do you have additional branches?
+              </Typography>
+              <div className="flex justify-center gap-4">
+                <Button
+                  variant={formData.hasBranch === "Yes" ? "filled" : "outlined"}
+                  color="green"
+                  onClick={() => handleChange("hasBranch", "Yes")}
+                  className="px-8"
+                >
+                  Yes
+                </Button>
+                <Button
+                  variant={formData.hasBranch === "No" ? "filled" : "outlined"}
+                  color="red"
+                  onClick={() => handleChange("hasBranch", "No")}
+                  className="px-8"
+                >
+                  No
+                </Button>
+              </div>
             </div>
 
             {formData.hasBranch === "Yes" && (
-              <>
+              <div className="space-y-8">
                 {branchLocations.map((branch, index) => (
-                  <div
-                    key={index}
-                    className=""
-                  >
-                    <Typography variant="h6" className="text-blue-800">
+                  <Card key={index} className="p-6 border border-gray-200">
+                    <Typography variant="h6" className="text-gray-800 mb-4">
                       Branch Location {index + 1}
                     </Typography>
 
-                    <Input
-                      label="Branch Radius (m)"
-                      type="number"
-                      min="0"
-                      value={branch.radius}
-                      onChange={(e) => {
-                        const updated = [...branchLocations];
-                        updated[index].radius = e.target.value;
-                        setBranchLocations(updated);
-                      }}
-                    />
+                    <div className="mb-4">
+                      <Input
+                        size="lg"
+                        label="Branch Radius (meters)"
+                        type="number"
+                        min="0"
+                        value={branch.radius}
+                        onChange={(e) => {
+                          const updated = [...branchLocations];
+                          updated[index].radius = e.target.value;
+                          setBranchLocations(updated);
+                        }}
+                        className="focus:border-indigo-500"
+                      />
+                    </div>
 
-                    <Typography variant="paragraph" className="text-blue-700 font-medium mt-3">
-                      Select Branch Location
-                    </Typography>
-
-                    <div className="rounded-xl overflow-hidden border border-blue-100 shadow-sm">
+                    <Card className="overflow-hidden border border-gray-200">
                       <MapContainer
                         center={[20.5937, 78.9629]}
                         zoom={4}
                         style={{ height: "300px", width: "100%" }}
-                        className="rounded-xl"
                       >
                         <TileLayer
                           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a>'
@@ -377,41 +395,43 @@ export function CompanyRegistration() {
                               <Circle
                                 center={[branch.latitude, branch.longitude]}
                                 radius={parseFloat(branch.radius)}
-                                pathOptions={{ color: "green", fillColor: "#4ADE80", fillOpacity: 0.3 }}
+                                pathOptions={{ color: "green", fillColor: "#22c55e", fillOpacity: 0.2 }}
                               />
                             )}
                           </>
                         )}
                       </MapContainer>
-                    </div>
+                    </Card>
 
-                    <div className="grid grid-cols-2 gap-4 mt-3">
+                    <div className="grid grid-cols-2 gap-4 mt-4">
                       <Input
+                        size="lg"
                         label="Latitude"
                         value={branch.latitude}
                         readOnly
                         className="bg-gray-50"
                       />
                       <Input
+                        size="lg"
                         label="Longitude"
                         value={branch.longitude}
                         readOnly
                         className="bg-gray-50"
                       />
                     </div>
-                  </div>
+                  </Card>
                 ))}
 
                 <Button
                   variant="outlined"
-                  color="blue"
-                  className="flex items-center gap-2"
+                  color="indigo"
+                  className="flex items-center gap-2 mx-auto"
                   onClick={addBranchLocation}
                 >
                   <PlusIcon className="w-4 h-4" />
                   Add Another Branch
                 </Button>
-              </>
+              </div>
             )}
           </div>
         );
@@ -421,96 +441,102 @@ export function CompanyRegistration() {
   };
 
   return (
-    <section className="flex flex-col-reverse md:flex-row min-h-screen">
-      <div
-        className="hidden md:block md:w-1/2 h-64 md:h-auto bg-cover bg-center"
-        style={{
-          backgroundImage:
-            "url('/img/flat-lay-back-school-concept-with-copy-space.jpg')",
-        }}
-      />
-      <div className="w-full md:w-1/2 flex items-center justify-center bg-gradient-to-tr from-white to-gray-100 p-4">
-        <div className="w-full max-w-sm sm:max-w-md p-6 sm:p-10 bg-white rounded-xl shadow-lg">
-          <div className="flex justify-center mb-6">
-            <img src="/img/logo.png" alt="Logo" className="h-16 w-auto" />
-          </div>
-          <div className="text-center mb-6 space-y-1">
-            <Typography
-              variant="h2"
-              className="text-xl sm:text-2xl md:text-3xl font-bold text-blue-900"
-            >
-              Company Registration
-            </Typography>
-            <div className="flex justify-center items-center space-x-2 text-sm sm:text-base">
-              <Typography className="text-gray-600 font-medium">
-                Step
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 p-4 flex items-center justify-center">
+      <div className="w-full max-w-4xl mx-auto">
+        <Card className="shadow-2xl border-0">
+          <CardBody className="p-8 lg:p-12">
+            {/* Header */}
+            <div className="text-center mb-8">
+              <div className="w-20 h-20 mx-auto bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl flex items-center justify-center mb-4">
+                <BuildingOfficeIcon className="w-10 h-10 text-white" />
+              </div>
+              <Typography variant="h3" className="font-bold text-gray-900 mb-2">
+                Company Registration
               </Typography>
-              <Typography className="text-blue-700 font-bold">
-                {step}
-              </Typography>
-              <Typography className="text-gray-600 font-medium">
-                of {steps.length}
+              <Typography className="text-gray-600">
+                Set up your company profile and get started
               </Typography>
             </div>
-          </div>
-          <div className="flex justify-between flex-wrap sm:flex-nowrap gap-3 sm:gap-4 mb-4">
-            {steps.map((label, idx) => (
-              <div key={idx} className="flex flex-col items-center min-w-[50px] flex-1">
-                <div
-                  className={`w-8 h-8 flex items-center justify-center rounded-full font-semibold transition-colors ${step > idx + 1
-                    ? "bg-green-500 text-white"
-                    : step === idx + 1
-                      ? "bg-blue-900 text-white animate-pulse"
-                      : "bg-gray-200 text-gray-500"
+
+            {/* Progress Steps */}
+            <div className="flex justify-between items-center mb-8 overflow-x-auto pb-4">
+              {steps.map((stepItem, idx) => (
+                <div key={idx} className="flex flex-col items-center min-w-0 flex-1">
+                  <div className="flex items-center w-full">
+                    <div
+                      className={`w-12 h-12 flex items-center justify-center rounded-full font-semibold transition-all ${
+                        step > idx + 1
+                          ? "bg-green-500 text-white"
+                          : step === idx + 1
+                          ? "bg-indigo-600 text-white"
+                          : "bg-gray-200 text-gray-500"
+                      }`}
+                    >
+                      {step > idx + 1 ? (
+                        <CheckCircleIcon className="w-6 h-6" />
+                      ) : (
+                        <stepItem.icon className="w-6 h-6" />
+                      )}
+                    </div>
+                    {idx < steps.length - 1 && (
+                      <div
+                        className={`flex-1 h-0.5 mx-2 ${
+                          step > idx + 1 ? "bg-green-500" : "bg-gray-200"
+                        }`}
+                      />
+                    )}
+                  </div>
+                  <Typography
+                    variant="small"
+                    className={`mt-2 text-center font-medium ${
+                      step === idx + 1 ? "text-indigo-600" : "text-gray-500"
                     }`}
-                >
-                  {idx + 1}
+                  >
+                    {stepItem.title}
+                  </Typography>
                 </div>
-                <Typography
-                  variant="small"
-                  className="mt-1 text-gray-600 text-xs sm:text-sm text-center"
-                >
-                  {label}
-                </Typography>
-              </div>
-            ))}
-          </div>
-          <form className="space-y-5">
-            {renderStep()}
-            <div className="flex flex-col sm:flex-row justify-between mt-2">
+              ))}
+            </div>
+
+            {/* Form Content */}
+            <div className="mb-8">
+              {renderStep()}
+            </div>
+
+            {/* Navigation Buttons */}
+            <div className="flex flex-col sm:flex-row justify-between gap-4">
               {step > 1 && (
                 <Button
                   variant="outlined"
                   onClick={handleBack}
-                  className="mb-3 sm:mb-0 w-full sm:w-auto"
+                  className="order-2 sm:order-1"
                 >
                   Back
                 </Button>
               )}
+              <div className="flex-1"></div>
               {step < steps.length ? (
                 <Button
                   onClick={handleNext}
-                  className="w-full sm:w-auto bg-blue-900 text-white"
+                  className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 order-1 sm:order-2"
+                  size="lg"
                 >
-                  Next
+                  Next Step
                 </Button>
               ) : (
                 <Button
                   onClick={handleSignUp}
-                  // disabled={
-                  //   !formData.longitude ||
-                  //   (formData.hasBranch === "Yes" && (!formData.branchLatitude || !formData.branchLongitude))
-                  // }
-                  className="w-full sm:w-auto bg-green-600 text-white"
+                  className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 order-1 sm:order-2"
+                  size="lg"
                 >
-                  Sign Up
+                  Complete Registration
                 </Button>
               )}
             </div>
-          </form>
-        </div>
+          </CardBody>
+        </Card>
       </div>
-    </section>
+    </div>
   );
 }
 

@@ -52,10 +52,10 @@ export function UserDashboard() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 p-6 animate-fade-in">
+    <div className="min-h-screen bg-gray-50 p-4 lg:p-6">
       {/* Header */}
-      <div className="mb-8 animate-fade-in-up">
-        <Typography variant="h3" className="font-bold text-gray-800 mb-2 text-gradient">
+      <div className="mb-8">
+        <Typography variant="h3" className="font-bold text-gray-900 mb-2">
           Welcome Back! 👋
         </Typography>
         <Typography variant="lead" className="text-gray-600">
@@ -69,22 +69,22 @@ export function UserDashboard() {
       </div>
 
       {/* Time Tracking Card */}
-      <Card className="mb-8 shadow-2xl border-0 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white card-interactive animate-float">
-        <CardBody className="p-8">
+      <Card className="mb-8 shadow-lg border-0 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white">
+        <CardBody className="p-6 lg:p-8">
           <div className="flex flex-col lg:flex-row items-center justify-between">
             <div className="text-center lg:text-left mb-6 lg:mb-0">
-              <Typography variant="h2" className="font-bold mb-2 animate-pulse">
+              <Typography variant="h2" className="font-bold mb-2">
                 {currentTime.toLocaleTimeString()}
               </Typography>
               <Typography variant="h6" className="opacity-90">
                 {isClocked ? (onBreak ? "On Break" : "Working") : "Not Clocked In"}
               </Typography>
             </div>
-            <div className="flex gap-4">
+            <div className="flex gap-3">
               {!isClocked ? (
                 <Button
                   onClick={() => setIsClocked(true)}
-                  className="flex items-center gap-2 bg-white text-purple-600 hover:bg-gray-100 btn-modern"
+                  className="flex items-center gap-2 bg-white text-purple-600 hover:bg-gray-100"
                   size="lg"
                 >
                   <PlayIcon className="h-5 w-5" />
@@ -94,7 +94,7 @@ export function UserDashboard() {
                 <>
                   <Button
                     onClick={() => setOnBreak(!onBreak)}
-                    className={`flex items-center gap-2 btn-modern ${
+                    className={`flex items-center gap-2 ${
                       onBreak ? "bg-green-500 hover:bg-green-600" : "bg-yellow-500 hover:bg-yellow-600"
                     }`}
                     size="lg"
@@ -104,7 +104,7 @@ export function UserDashboard() {
                   </Button>
                   <Button
                     onClick={() => setIsClocked(false)}
-                    className="flex items-center gap-2 bg-red-500 hover:bg-red-600 btn-modern"
+                    className="flex items-center gap-2 bg-red-500 hover:bg-red-600"
                     size="lg"
                   >
                     <StopIcon className="h-5 w-5" />
@@ -120,9 +120,9 @@ export function UserDashboard() {
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-8">
         {userStats.map((stat, index) => (
-          <Card key={index} className="shadow-xl hover:shadow-2xl transition-all duration-500 border-0 bg-white/80 backdrop-blur-sm card-interactive animate-fade-in-up" style={{animationDelay: `${index * 0.1}s`}}>
+          <Card key={index} className="shadow-lg hover:shadow-xl transition-shadow duration-300 border-0 bg-white">
             <CardBody className="p-6">
-              <div className={`w-16 h-16 rounded-2xl bg-gradient-to-r ${stat.color} flex items-center justify-center mb-4 animate-bounce-slow`}>
+              <div className={`w-16 h-16 rounded-2xl bg-gradient-to-r ${stat.color} flex items-center justify-center mb-4`}>
                 <stat.icon className="h-8 w-8 text-white" />
               </div>
               <Typography variant="h4" className="font-bold text-gray-800 mb-1">
@@ -145,7 +145,7 @@ export function UserDashboard() {
       {/* Main Content */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         {/* Quick Actions */}
-        <Card className="shadow-xl hover:shadow-2xl transition-all duration-300 border-0 bg-white/80 backdrop-blur-sm card-interactive">
+        <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300 border-0 bg-white">
           <CardHeader floated={false} color="transparent" className="m-0 p-6">
             <Typography variant="h6" className="font-bold text-gray-800">
               🚀 Quick Actions
@@ -156,7 +156,7 @@ export function UserDashboard() {
               onClick={() => navigate("/dashboard/leave-request")}
               variant="gradient"
               color="blue"
-              className="w-full justify-start btn-modern"
+              className="w-full justify-start"
             >
               <CalendarDaysIcon className="h-5 w-5 mr-3" />
               Request Leave
@@ -165,7 +165,7 @@ export function UserDashboard() {
               onClick={() => navigate("/dashboard/schedule")}
               variant="gradient"
               color="green"
-              className="w-full justify-start btn-modern"
+              className="w-full justify-start"
             >
               <ChartBarIcon className="h-5 w-5 mr-3" />
               View Schedule
@@ -174,7 +174,7 @@ export function UserDashboard() {
               onClick={() => navigate("/dashboard/leave-request/leave-summary")}
               variant="gradient"
               color="purple"
-              className="w-full justify-start btn-modern"
+              className="w-full justify-start"
             >
               <CheckCircleIcon className="h-5 w-5 mr-3" />
               Leave Summary
@@ -183,7 +183,7 @@ export function UserDashboard() {
         </Card>
 
         {/* Upcoming Tasks */}
-        <Card className="shadow-xl hover:shadow-2xl transition-all duration-300 border-0 bg-white/80 backdrop-blur-sm card-interactive">
+        <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300 border-0 bg-white">
           <CardHeader floated={false} color="transparent" className="m-0 p-6">
             <Typography variant="h6" className="font-bold text-gray-800">
               📋 Upcoming Tasks
@@ -191,7 +191,7 @@ export function UserDashboard() {
           </CardHeader>
           <CardBody className="pt-0 space-y-4">
             {upcomingTasks.map((task, index) => (
-              <div key={index} className="flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-all duration-300 hover:scale-105">
+              <div key={index} className="flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors duration-200">
                 <div>
                   <Typography variant="small" className="font-semibold text-gray-800">
                     {task.task}
@@ -215,7 +215,7 @@ export function UserDashboard() {
 
       {/* Recent Activities & Weekly Progress */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card className="shadow-xl border-0 bg-white/80 backdrop-blur-sm card-interactive">
+        <Card className="shadow-lg border-0 bg-white">
           <CardHeader floated={false} color="transparent" className="m-0 p-6">
             <Typography variant="h6" className="font-bold text-gray-800">
               🔔 Recent Activities
@@ -224,13 +224,13 @@ export function UserDashboard() {
           <CardBody className="pt-0">
             <div className="space-y-4">
               {recentActivities.map((activity, index) => (
-                <div key={index} className="flex items-center space-x-4 p-3 hover:bg-gray-50 rounded-lg transition-all duration-300">
+                <div key={index} className="flex items-center space-x-4 p-3 hover:bg-gray-50 rounded-lg transition-colors duration-200">
                   <div className={`w-3 h-3 rounded-full ${
                     activity.type === 'clock' ? 'bg-green-500' :
                     activity.type === 'work' ? 'bg-blue-500' :
                     activity.type === 'task' ? 'bg-purple-500' :
                     'bg-yellow-500'
-                  } animate-pulse`}></div>
+                  }`}></div>
                   <div>
                     <Typography variant="small" className="font-medium text-gray-800">
                       {activity.action}
@@ -245,7 +245,7 @@ export function UserDashboard() {
           </CardBody>
         </Card>
 
-        <Card className="shadow-xl border-0 bg-white/80 backdrop-blur-sm card-interactive">
+        <Card className="shadow-lg border-0 bg-white">
           <CardHeader floated={false} color="transparent" className="m-0 p-6">
             <Typography variant="h6" className="font-bold text-gray-800">
               📊 Weekly Progress
@@ -265,13 +265,13 @@ export function UserDashboard() {
                 <span className="text-sm font-medium text-gray-700">Work Hours</span>
                 <span className="text-sm text-gray-600">32/40 hrs</span>
               </div>
-              <Progress value={80} color="blue" className="h-3 animate-pulse" />
+              <Progress value={80} color="blue" className="h-3" />
               
               <div className="flex justify-between items-center">
                 <span className="text-sm font-medium text-gray-700">Tasks Completed</span>
                 <span className="text-sm text-gray-600">8/10</span>
               </div>
-              <Progress value={80} color="green" className="h-3 animate-pulse" />
+              <Progress value={80} color="green" className="h-3" />
             </div>
           </CardBody>
         </Card>
