@@ -1,219 +1,163 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Typography,
   Card,
   CardHeader,
   CardBody,
   Button,
+  Progress,
 } from "@material-tailwind/react";
 import {
   ClockIcon,
+  ChartBarIcon,
   CalendarDaysIcon,
-  UserIcon,
-  BellIcon,
+  CheckCircleIcon,
+  PlayIcon,
+  PauseIcon,
+  StopIcon,
+  CoffeeIcon,
 } from "@heroicons/react/24/solid";
 import { useNavigate } from "react-router-dom";
 
 export function UserDashboard() {
   const navigate = useNavigate();
-  const [clockInTime, setClockInTime] = useState<Date | null>(null);
-  const [clockOutTime, setClockOutTime] = useState<Date | null>(null);
-  const [breakInTime, setBreakInTime] = useState<Date | null>(null);
-  const [breakOutTime, setBreakOutTime] = useState<Date | null>(null);
-  const [isClockedIn, setIsClockedIn] = useState(false);
-  const [isOnBreak, setIsOnBreak] = useState(false);
+  const [currentTime, setCurrentTime] = useState(new Date());
+  const [isClocked, setIsClocked] = useState(false);
+  const [onBreak, setOnBreak] = useState(false);
+  const [workHours, setWorkHours] = useState("0:00");
 
-  const formatTime = (time: Date | null) => {
-    if (!time) return "00:00:00";
-    return time.toLocaleTimeString();
-  };
+  useEffect(() => {
+    const timer = setInterval(() => setCurrentTime(new Date()), 1000);
+    return () => clearInterval(timer);
+  }, []);
 
-  const handleClockIn = () => {
-    setClockInTime(new Date());
-    setIsClockedIn(true);
-  };
+  const userStats = [
+    { title: "Hours Today", value: workHours, change: "+2h", icon: ClockIcon, color: "from-blue-500 to-blue-600" },
+    { title: "This Week", value: "32h", change: "+4h", icon: ChartBarIcon, color: "from-green-500 to-green-600" },
+    { title: "Leave Balance", value: "12", change: "-1", icon: CalendarDaysIcon, color: "from-purple-500 to-purple-600" },
+    { title: "Tasks Done", value: "8", change: "+3", icon: CheckCircleIcon, color: "from-orange-500 to-orange-600" },
+  ];
 
-  const handleClockOut = () => {
-    setClockOutTime(new Date());
-    setIsClockedIn(false);
-  };
+  const upcomingTasks = [
+    { task: "Review project proposal", deadline: "Today 2:00 PM", priority: "High" },
+    { task: "Team meeting", deadline: "Today 3:30 PM", priority: "Medium" },
+    { task: "Submit timesheet", deadline: "Tomorrow 9:00 AM", priority: "Low" },
+  ];
 
-  const handleBreakIn = () => {
-    setBreakInTime(new Date());
-    setIsOnBreak(true);
-  };
-
-  const handleBreakOut = () => {
-    setBreakOutTime(new Date());
-    setIsOnBreak(false);
-  };
+  const recentActivities = [
+    { action: "Clocked in", time: "9:00 AM", type: "clock" },
+    { action: "Started project review", time: "9:30 AM", type: "work" },
+    { action: "Completed task #1", time: "11:00 AM", type: "task" },
+    { action: "Break time", time: "12:00 PM", type: "break" },
+  ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 p-6">
-      {/* Welcome Header */}
-      <div className="mb-8">
-        <div className="flex items-center justify-between">
-          <div>
-            <Typography variant="h3" className="font-bold text-gray-800">
-              Welcome back! 👋
-            </Typography>
-            <Typography variant="lead" className="text-gray-600 mt-2">
-              Ready to make today productive?
-            </Typography>
-          </div>
-          <div className="hidden md:block">
-            <div className="text-right">
-              <Typography variant="h6" className="text-gray-700">
-                {new Date().toLocaleDateString('en-US', { 
-                  weekday: 'long', 
-                  year: 'numeric', 
-                  month: 'long', 
-                  day: 'numeric' 
-                })}
-              </Typography>
-              <Typography variant="small" className="text-gray-500">
-                {new Date().toLocaleTimeString()}
-              </Typography>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Quick Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <Card className="bg-gradient-to-r from-green-400 to-green-600 text-white shadow-xl hover:shadow-2xl transition-all duration-300">
-          <CardBody className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <Typography variant="h4" className="font-bold">
-                  8h 30m
-                </Typography>
-                <Typography variant="small" className="opacity-80">
-                  Hours This Week
-                </Typography>
-              </div>
-              <ClockIcon className="h-12 w-12 opacity-80" />
-            </div>
-          </CardBody>
-        </Card>
-
-        <Card className="bg-gradient-to-r from-blue-400 to-blue-600 text-white shadow-xl hover:shadow-2xl transition-all duration-300">
-          <CardBody className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <Typography variant="h4" className="font-bold">
-                  3
-                </Typography>
-                <Typography variant="small" className="opacity-80">
-                  Leave Days Left
-                </Typography>
-              </div>
-              <CalendarDaysIcon className="h-12 w-12 opacity-80" />
-            </div>
-          </CardBody>
-        </Card>
-
-        <Card className="bg-gradient-to-r from-purple-400 to-purple-600 text-white shadow-xl hover:shadow-2xl transition-all duration-300">
-          <CardBody className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <Typography variant="h4" className="font-bold">
-                  95%
-                </Typography>
-                <Typography variant="small" className="opacity-80">
-                  Attendance Rate
-                </Typography>
-              </div>
-              <UserIcon className="h-12 w-12 opacity-80" />
-            </div>
-          </CardBody>
-        </Card>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 p-6 animate-fade-in">
+      {/* Header */}
+      <div className="mb-8 animate-fade-in-up">
+        <Typography variant="h3" className="font-bold text-gray-800 mb-2 text-gradient">
+          Welcome Back! 👋
+        </Typography>
+        <Typography variant="lead" className="text-gray-600">
+          {currentTime.toLocaleDateString('en-US', { 
+            weekday: 'long', 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric' 
+          })}
+        </Typography>
       </div>
 
       {/* Time Tracking Card */}
-      <Card className="mb-8 shadow-2xl border-0 bg-white/80 backdrop-blur-sm">
-        <CardHeader floated={false} shadow={false} color="transparent" className="m-0 p-6">
-          <Typography variant="h5" color="blue-gray" className="font-bold mb-2">
-            ⏰ Time Tracking
-          </Typography>
-          <Typography variant="small" className="text-gray-600">
-            Track your daily working and break hours
-          </Typography>
-        </CardHeader>
-        <CardBody className="pt-0">
-          {/* Action Buttons */}
-          <div className="flex flex-wrap gap-4 mb-8 justify-center">
-            {!isClockedIn ? (
-              <Button
-                onClick={handleClockIn}
-                className="bg-gradient-to-r from-green-500 to-green-600 text-white py-3 px-8 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
-              >
-                🚀 Clock In
-              </Button>
-            ) : !isOnBreak ? (
-              <>
+      <Card className="mb-8 shadow-2xl border-0 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white card-interactive animate-float">
+        <CardBody className="p-8">
+          <div className="flex flex-col lg:flex-row items-center justify-between">
+            <div className="text-center lg:text-left mb-6 lg:mb-0">
+              <Typography variant="h2" className="font-bold mb-2 animate-pulse">
+                {currentTime.toLocaleTimeString()}
+              </Typography>
+              <Typography variant="h6" className="opacity-90">
+                {isClocked ? (onBreak ? "On Break" : "Working") : "Not Clocked In"}
+              </Typography>
+            </div>
+            <div className="flex gap-4">
+              {!isClocked ? (
                 <Button
-                  onClick={handleBreakIn}
-                  className="bg-gradient-to-r from-yellow-500 to-yellow-600 text-white py-3 px-8 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+                  onClick={() => setIsClocked(true)}
+                  className="flex items-center gap-2 bg-white text-purple-600 hover:bg-gray-100 btn-modern"
+                  size="lg"
                 >
-                  ☕ Break In
+                  <PlayIcon className="h-5 w-5" />
+                  Clock In
                 </Button>
-                <Button
-                  onClick={handleClockOut}
-                  className="bg-gradient-to-r from-red-500 to-red-600 text-white py-3 px-8 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
-                >
-                  🏁 Clock Out
-                </Button>
-              </>
-            ) : (
-              <Button
-                onClick={handleBreakOut}
-                className="bg-gradient-to-r from-blue-500 to-blue-600 text-white py-3 px-8 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
-              >
-                🔙 Break Out
-              </Button>
-            )}
-          </div>
-
-          {/* Time Display */}
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
-            {[
-              { label: "Clock In", value: formatTime(clockInTime), icon: "🕘", color: "from-green-400 to-green-600" },
-              { label: "Break In", value: formatTime(breakInTime), icon: "☕", color: "from-yellow-400 to-yellow-600" },
-              { label: "Break Out", value: formatTime(breakOutTime), icon: "🔄", color: "from-blue-400 to-blue-600" },
-              { label: "Clock Out", value: formatTime(clockOutTime), icon: "🕔", color: "from-red-400 to-red-600" },
-            ].map(({ label, value, icon, color }, index) => (
-              <div key={index} className={`bg-gradient-to-br ${color} rounded-2xl p-6 text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105`}>
-                <div className="text-center">
-                  <div className="text-3xl mb-3">{icon}</div>
-                  <Typography variant="h6" className="font-bold mb-2">
-                    {label}
-                  </Typography>
-                  <Typography variant="h5" className="font-mono">
-                    {value}
-                  </Typography>
-                </div>
-              </div>
-            ))}
+              ) : (
+                <>
+                  <Button
+                    onClick={() => setOnBreak(!onBreak)}
+                    className={`flex items-center gap-2 btn-modern ${
+                      onBreak ? "bg-green-500 hover:bg-green-600" : "bg-yellow-500 hover:bg-yellow-600"
+                    }`}
+                    size="lg"
+                  >
+                    <CoffeeIcon className="h-5 w-5" />
+                    {onBreak ? "End Break" : "Start Break"}
+                  </Button>
+                  <Button
+                    onClick={() => setIsClocked(false)}
+                    className="flex items-center gap-2 bg-red-500 hover:bg-red-600 btn-modern"
+                    size="lg"
+                  >
+                    <StopIcon className="h-5 w-5" />
+                    Clock Out
+                  </Button>
+                </>
+              )}
+            </div>
           </div>
         </CardBody>
       </Card>
 
-      {/* Quick Actions */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Card className="shadow-xl hover:shadow-2xl transition-all duration-300 border-0 bg-white/80 backdrop-blur-sm">
+      {/* Stats Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-8">
+        {userStats.map((stat, index) => (
+          <Card key={index} className="shadow-xl hover:shadow-2xl transition-all duration-500 border-0 bg-white/80 backdrop-blur-sm card-interactive animate-fade-in-up" style={{animationDelay: `${index * 0.1}s`}}>
+            <CardBody className="p-6">
+              <div className={`w-16 h-16 rounded-2xl bg-gradient-to-r ${stat.color} flex items-center justify-center mb-4 animate-bounce-slow`}>
+                <stat.icon className="h-8 w-8 text-white" />
+              </div>
+              <Typography variant="h4" className="font-bold text-gray-800 mb-1">
+                {stat.value}
+              </Typography>
+              <Typography variant="small" className="text-gray-600 mb-2">
+                {stat.title}
+              </Typography>
+              <div className="flex items-center">
+                <span className={`text-sm font-medium ${stat.change.startsWith('+') ? 'text-green-600' : 'text-red-600'}`}>
+                  {stat.change}
+                </span>
+                <span className="text-xs text-gray-500 ml-1">today</span>
+              </div>
+            </CardBody>
+          </Card>
+        ))}
+      </div>
+
+      {/* Main Content */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+        {/* Quick Actions */}
+        <Card className="shadow-xl hover:shadow-2xl transition-all duration-300 border-0 bg-white/80 backdrop-blur-sm card-interactive">
           <CardHeader floated={false} color="transparent" className="m-0 p-6">
             <Typography variant="h6" className="font-bold text-gray-800">
-              📋 Quick Actions
+              🚀 Quick Actions
             </Typography>
           </CardHeader>
-          <CardBody className="pt-0 space-y-3">
+          <CardBody className="pt-0 space-y-4">
             <Button
               onClick={() => navigate("/dashboard/leave-request")}
               variant="gradient"
               color="blue"
-              className="w-full justify-start"
+              className="w-full justify-start btn-modern"
             >
               <CalendarDaysIcon className="h-5 w-5 mr-3" />
               Request Leave
@@ -221,50 +165,115 @@ export function UserDashboard() {
             <Button
               onClick={() => navigate("/dashboard/schedule")}
               variant="gradient"
-              color="purple"
-              className="w-full justify-start"
+              color="green"
+              className="w-full justify-start btn-modern"
             >
-              <ClockIcon className="h-5 w-5 mr-3" />
+              <ChartBarIcon className="h-5 w-5 mr-3" />
               View Schedule
             </Button>
             <Button
-              onClick={() => navigate("/dashboard/upcoming-holidays")}
+              onClick={() => navigate("/dashboard/leave-request/leave-summary")}
               variant="gradient"
-              color="green"
-              className="w-full justify-start"
+              color="purple"
+              className="w-full justify-start btn-modern"
             >
-              <BellIcon className="h-5 w-5 mr-3" />
-              Upcoming Holidays
+              <CheckCircleIcon className="h-5 w-5 mr-3" />
+              Leave Summary
             </Button>
           </CardBody>
         </Card>
 
-        <Card className="shadow-xl hover:shadow-2xl transition-all duration-300 border-0 bg-white/80 backdrop-blur-sm">
+        {/* Upcoming Tasks */}
+        <Card className="shadow-xl hover:shadow-2xl transition-all duration-300 border-0 bg-white/80 backdrop-blur-sm card-interactive">
           <CardHeader floated={false} color="transparent" className="m-0 p-6">
             <Typography variant="h6" className="font-bold text-gray-800">
-              🎉 Upcoming Events
+              📋 Upcoming Tasks
             </Typography>
           </CardHeader>
           <CardBody className="pt-0 space-y-4">
-            {[
-              { event: "Team Meeting", date: "Today, 2:00 PM", color: "bg-blue-100 text-blue-800" },
-              { event: "Sarah's Birthday", date: "Tomorrow", color: "bg-pink-100 text-pink-800" },
-              { event: "Monthly Review", date: "Friday", color: "bg-purple-100 text-purple-800" },
-            ].map((item, index) => (
-              <div key={index} className="flex items-center justify-between p-3 rounded-lg bg-gray-50">
+            {upcomingTasks.map((task, index) => (
+              <div key={index} className="flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-all duration-300 hover:scale-105">
                 <div>
-                  <Typography variant="small" className="font-semibold">
-                    {item.event}
+                  <Typography variant="small" className="font-semibold text-gray-800">
+                    {task.task}
                   </Typography>
                   <Typography variant="small" className="text-gray-600">
-                    {item.date}
+                    {task.deadline}
                   </Typography>
                 </div>
-                <div className={`px-3 py-1 rounded-full text-xs font-medium ${item.color}`}>
-                  📅
+                <div className={`px-3 py-1 rounded-full text-xs font-medium ${
+                  task.priority === 'High' ? 'bg-red-100 text-red-800' :
+                  task.priority === 'Medium' ? 'bg-yellow-100 text-yellow-800' :
+                  'bg-green-100 text-green-800'
+                }`}>
+                  {task.priority}
                 </div>
               </div>
             ))}
+          </CardBody>
+        </Card>
+      </div>
+
+      {/* Recent Activities & Weekly Progress */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <Card className="shadow-xl border-0 bg-white/80 backdrop-blur-sm card-interactive">
+          <CardHeader floated={false} color="transparent" className="m-0 p-6">
+            <Typography variant="h6" className="font-bold text-gray-800">
+              🔔 Recent Activities
+            </Typography>
+          </CardHeader>
+          <CardBody className="pt-0">
+            <div className="space-y-4">
+              {recentActivities.map((activity, index) => (
+                <div key={index} className="flex items-center space-x-4 p-3 hover:bg-gray-50 rounded-lg transition-all duration-300">
+                  <div className={`w-3 h-3 rounded-full ${
+                    activity.type === 'clock' ? 'bg-green-500' :
+                    activity.type === 'work' ? 'bg-blue-500' :
+                    activity.type === 'task' ? 'bg-purple-500' :
+                    'bg-yellow-500'
+                  } animate-pulse`}></div>
+                  <div>
+                    <Typography variant="small" className="font-medium text-gray-800">
+                      {activity.action}
+                    </Typography>
+                    <Typography variant="small" className="text-gray-600">
+                      {activity.time}
+                    </Typography>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </CardBody>
+        </Card>
+
+        <Card className="shadow-xl border-0 bg-white/80 backdrop-blur-sm card-interactive">
+          <CardHeader floated={false} color="transparent" className="m-0 p-6">
+            <Typography variant="h6" className="font-bold text-gray-800">
+              📊 Weekly Progress
+            </Typography>
+          </CardHeader>
+          <CardBody className="pt-0 space-y-6">
+            <div className="text-center p-6 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl">
+              <Typography variant="h4" className="font-bold text-gray-800 mb-2">
+                80%
+              </Typography>
+              <Typography variant="small" className="text-gray-600">
+                Weekly Goal Achievement
+              </Typography>
+            </div>
+            <div className="space-y-4">
+              <div className="flex justify-between items-center">
+                <span className="text-sm font-medium text-gray-700">Work Hours</span>
+                <span className="text-sm text-gray-600">32/40 hrs</span>
+              </div>
+              <Progress value={80} color="blue" className="h-3 animate-pulse" />
+              
+              <div className="flex justify-between items-center">
+                <span className="text-sm font-medium text-gray-700">Tasks Completed</span>
+                <span className="text-sm text-gray-600">8/10</span>
+              </div>
+              <Progress value={80} color="green" className="h-3 animate-pulse" />
+            </div>
           </CardBody>
         </Card>
       </div>

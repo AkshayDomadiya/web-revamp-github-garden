@@ -36,16 +36,16 @@ export function Dashboard() {
   const routes = getRoutesByRole(allRoutes, role);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 animate-fade-in">
       <Sidenav
         routes={routes}
         brandImg={
           sidenavType === "dark" ? "/img/logo-ct.png" : "/img/logo-ct-dark.png"
         }
       />
-      <div className="p-4 xl:ml-80">
+      <div className="p-4 xl:ml-80 transition-all duration-300">
         <DashboardNavbar />
-        <div className="mt-6">
+        <div className="mt-6 animate-fade-in-up">
           <Routes>
             {routes.map(
               ({ layout, pages }) =>
