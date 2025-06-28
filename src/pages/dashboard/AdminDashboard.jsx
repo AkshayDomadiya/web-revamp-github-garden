@@ -67,96 +67,88 @@ export function AdminDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 p-4 lg:p-6">
+    <div className="min-h-screen bg-gray-50 p-4 lg:p-6">
       {/* Header */}
-      <div className="mb-8 text-center lg:text-left">
-        <Typography variant="h2" className="font-bold bg-gradient-to-r from-blue-800 to-indigo-900 bg-clip-text text-transparent mb-2">
+      <div className="mb-8">
+        <Typography variant="h2" className="font-bold text-gray-800 mb-2">
           Admin Dashboard
         </Typography>
-        <Typography variant="lead" className="text-gray-600 text-lg">
-          Real-time employee monitoring and management system
+        <Typography variant="lead" className="text-gray-600">
+          Employee management and monitoring system
         </Typography>
       </div>
 
       {/* Quick Stats Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-8">
-        <Card className="bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
-          <CardBody className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <Typography variant="h3" className="font-bold text-white">
-                  24
-                </Typography>
-                <Typography variant="small" className="text-blue-100">
-                  Total Employees
-                </Typography>
-              </div>
-              <UserGroupIcon className="h-12 w-12 text-blue-200" />
-            </div>
+        <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300">
+          <CardHeader variant="gradient" color="blue" floated={false} shadow={false} className="absolute grid h-12 w-12 place-items-center">
+            <UserGroupIcon className="h-6 w-6 text-white" />
+          </CardHeader>
+          <CardBody className="p-4 text-right">
+            <Typography variant="small" className="font-normal text-blue-gray-600">
+              Total Employees
+            </Typography>
+            <Typography variant="h4" color="blue-gray">
+              24
+            </Typography>
           </CardBody>
         </Card>
 
-        <Card className="bg-gradient-to-r from-green-500 to-green-600 text-white shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
-          <CardBody className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <Typography variant="h3" className="font-bold text-white">
-                  22
-                </Typography>
-                <Typography variant="small" className="text-green-100">
-                  Present Today
-                </Typography>
-              </div>
-              <ClockIcon className="h-12 w-12 text-green-200" />
-            </div>
+        <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300">
+          <CardHeader variant="gradient" color="blue" floated={false} shadow={false} className="absolute grid h-12 w-12 place-items-center">
+            <ClockIcon className="h-6 w-6 text-white" />
+          </CardHeader>
+          <CardBody className="p-4 text-right">
+            <Typography variant="small" className="font-normal text-blue-gray-600">
+              Present Today
+            </Typography>
+            <Typography variant="h4" color="blue-gray">
+              22
+            </Typography>
           </CardBody>
         </Card>
 
-        <Card className="bg-gradient-to-r from-yellow-500 to-orange-500 text-white shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
-          <CardBody className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <Typography variant="h3" className="font-bold text-white">
-                  3
-                </Typography>
-                <Typography variant="small" className="text-yellow-100">
-                  Pending Requests
-                </Typography>
-              </div>
-              <BellIcon className="h-12 w-12 text-yellow-200" />
-            </div>
+        <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300">
+          <CardHeader variant="gradient" color="blue" floated={false} shadow={false} className="absolute grid h-12 w-12 place-items-center">
+            <BellIcon className="h-6 w-6 text-white" />
+          </CardHeader>
+          <CardBody className="p-4 text-right">
+            <Typography variant="small" className="font-normal text-blue-gray-600">
+              Pending Requests
+            </Typography>
+            <Typography variant="h4" color="blue-gray">
+              3
+            </Typography>
           </CardBody>
         </Card>
 
-        <Card className="bg-gradient-to-r from-purple-500 to-purple-600 text-white shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
-          <CardBody className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <Typography variant="h3" className="font-bold text-white">
-                  2051
-                </Typography>
-                <Typography variant="small" className="text-purple-100">
-                  Weekly Hours
-                </Typography>
-              </div>
-              <ChartBarIcon className="h-12 w-12 text-purple-200" />
-            </div>
+        <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300">
+          <CardHeader variant="gradient" color="blue" floated={false} shadow={false} className="absolute grid h-12 w-12 place-items-center">
+            <ChartBarIcon className="h-6 w-6 text-white" />
+          </CardHeader>
+          <CardBody className="p-4 text-right">
+            <Typography variant="small" className="font-normal text-blue-gray-600">
+              Weekly Hours
+            </Typography>
+            <Typography variant="h4" color="blue-gray">
+              2051
+            </Typography>
           </CardBody>
         </Card>
       </div>
 
       {/* Main Content Grid */}
-      <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 mb-8">
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 mb-8">
         
         {/* Employee Status - Left Column */}
-        <div className="xl:col-span-4">
-          <Card className="shadow-2xl border-0 bg-white/90 backdrop-blur-sm h-full hover:shadow-3xl transition-all duration-300">
-            <CardHeader floated={false} color="transparent" className="m-0 p-6 pb-4 bg-gradient-to-r from-blue-600 to-indigo-600">
+        <div className="xl:col-span-1">
+          <Card className="shadow-lg h-full">
+            <CardHeader floated={false} shadow={false} color="transparent" className="m-0 p-6 pb-4">
               <div className="flex items-center justify-between mb-4">
-                <Typography variant="h5" className="font-bold text-white">
+                <Typography variant="h6" className="font-semibold text-blue-gray-800">
                   Employee Status
                 </Typography>
-                <Button variant="text" size="sm" className="p-2 text-white hover:bg-white/20">
+                <Button variant="text" size="sm" className="p-2">
                   <EllipsisHorizontalIcon className="h-5 w-5" />
                 </Button>
               </div>
@@ -166,118 +158,106 @@ export function AdminDashboard() {
                   placeholder="Search employees..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="!bg-white/20 !border-white/30 !text-white placeholder:!text-white/70"
+                  className="!border-blue-gray-200 focus:!border-blue-500"
                   labelProps={{
-                    className: "!text-white/70",
+                    className: "before:content-none after:content-none",
                   }}
-                  icon={<MagnifyingGlassIcon className="h-5 w-5 text-white/70" />}
+                  icon={<MagnifyingGlassIcon className="h-5 w-5" />}
                 />
               </div>
             </CardHeader>
-            <CardBody className="pt-0 px-6 pb-6 max-h-96 overflow-y-auto custom-scrollbar">
+            <CardBody className="pt-0 px-6 pb-6 max-h-96 overflow-y-auto">
               <div className="space-y-3">
                 {filteredEmployees.map((employee) => (
-                  <div key={employee.id} className="flex items-center justify-between p-4 bg-gradient-to-r from-gray-50 to-blue-50 rounded-xl hover:from-blue-50 hover:to-indigo-50 transition-all duration-300 hover:shadow-md">
+                  <div key={employee.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-200">
                     <div className="flex items-center space-x-3 min-w-0 flex-1">
                       <div className="relative">
-                        <Avatar src={employee.avatar} alt={employee.name} size="md" className="ring-2 ring-blue-200" />
-                        <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 rounded-full ring-2 ring-white"></div>
+                        <Avatar src={employee.avatar} alt={employee.name} size="sm" />
+                        <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
                       </div>
                       <div className="min-w-0 flex-1">
-                        <Typography variant="small" className="font-semibold text-gray-800 truncate">
+                        <Typography variant="small" className="font-medium text-gray-800 truncate">
                           {employee.name}
                         </Typography>
                         <Chip
                           value={employee.status}
                           color="green"
                           size="sm"
-                          className="text-xs mt-1"
+                          className="text-xs"
                         />
                       </div>
                     </div>
-                    <Typography variant="small" className="text-gray-600 font-medium shrink-0 ml-2">
+                    <Typography variant="small" className="text-gray-600 shrink-0">
                       {employee.time}
                     </Typography>
                   </div>
                 ))}
               </div>
-              <div className="mt-6 pt-4 border-t border-gray-200">
-                <div className="flex justify-between text-sm">
-                  <span className="flex items-center text-blue-600 font-medium">
-                    <UserGroupIcon className="h-4 w-4 mr-1" />
-                    {filteredEmployees.length} Total
-                  </span>
-                  <span className="flex items-center text-green-600 font-medium">
-                    <ClockIcon className="h-4 w-4 mr-1" />
-                    {filteredEmployees.filter(emp => emp.status === 'WORKING').length} Working
-                  </span>
-                </div>
-              </div>
             </CardBody>
           </Card>
         </div>
 
-        {/* Middle Section - Exceptions & Charts */}
-        <div className="xl:col-span-8 space-y-6">
+        {/* Middle & Right Section */}
+        <div className="xl:col-span-2 space-y-6">
           {/* Exceptions */}
-          <Card className="shadow-2xl border-0 bg-white/90 backdrop-blur-sm hover:shadow-3xl transition-all duration-300">
-            <CardHeader floated={false} color="transparent" className="m-0 p-6 pb-4 bg-gradient-to-r from-indigo-600 to-purple-600">
+          <Card className="shadow-lg">
+            <CardHeader floated={false} shadow={false} color="transparent" className="m-0 p-6 pb-4">
               <div className="flex items-center justify-between">
-                <Typography variant="h5" className="font-bold text-white">
+                <Typography variant="h6" className="font-semibold text-blue-gray-800">
                   Today's Exceptions
                 </Typography>
-                <Button variant="text" size="sm" className="p-2 text-white hover:bg-white/20">
+                <Button variant="text" size="sm" className="p-2">
                   <EllipsisHorizontalIcon className="h-5 w-5" />
                 </Button>
               </div>
             </CardHeader>
             <CardBody className="pt-0 px-6 pb-6">
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-                <div className="text-center p-4 bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl border-l-4 border-orange-400 hover:shadow-lg transition-all duration-300 hover:scale-105">
+                <div className="text-center p-4 bg-orange-50 rounded-lg border border-orange-200">
                   <Typography variant="h4" className="font-bold text-orange-600 mb-1">
                     17
                   </Typography>
-                  <Typography variant="small" className="text-orange-800 font-medium">
+                  <Typography variant="small" className="text-orange-800">
                     Arrived Early
                   </Typography>
                 </div>
-                <div className="text-center p-4 bg-gradient-to-br from-red-50 to-red-100 rounded-xl border-l-4 border-red-400 hover:shadow-lg transition-all duration-300 hover:scale-105">
+                <div className="text-center p-4 bg-red-50 rounded-lg border border-red-200">
                   <Typography variant="h4" className="font-bold text-red-600 mb-1">
                     2
                   </Typography>
-                  <Typography variant="small" className="text-red-800 font-medium">
+                  <Typography variant="small" className="text-red-800">
                     Arrived Late
                   </Typography>
                 </div>
-                <div className="text-center p-4 bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl border-l-4 border-purple-400 hover:shadow-lg transition-all duration-300 hover:scale-105">
-                  <Typography variant="h4" className="font-bold text-purple-600 mb-1">
+                <div className="text-center p-4 bg-blue-50 rounded-lg border border-blue-200">
+                  <Typography variant="h4" className="font-bold text-blue-600 mb-1">
                     0
                   </Typography>
-                  <Typography variant="small" className="text-purple-800 font-medium">
+                  <Typography variant="small" className="text-blue-800">
                     Left Early
                   </Typography>
                 </div>
-                <div className="text-center p-4 bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl border-l-4 border-gray-400 hover:shadow-lg transition-all duration-300 hover:scale-105">
+                <div className="text-center p-4 bg-gray-50 rounded-lg border border-gray-200">
                   <Typography variant="h4" className="font-bold text-gray-600 mb-1">
                     0
                   </Typography>
-                  <Typography variant="small" className="text-gray-800 font-medium">
+                  <Typography variant="small" className="text-gray-800">
                     Left Late
                   </Typography>
                 </div>
-                <div className="text-center p-4 bg-gradient-to-br from-red-50 to-red-100 rounded-xl border-l-4 border-red-400 hover:shadow-lg transition-all duration-300 hover:scale-105">
+                <div className="text-center p-4 bg-red-50 rounded-lg border border-red-200">
                   <Typography variant="h4" className="font-bold text-red-600 mb-1">
                     27
                   </Typography>
-                  <Typography variant="small" className="text-red-800 font-medium">
+                  <Typography variant="small" className="text-red-800">
                     No Show
                   </Typography>
                 </div>
-                <div className="text-center p-4 bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-xl border-l-4 border-yellow-400 hover:shadow-lg transition-all duration-300 hover:scale-105">
+                <div className="text-center p-4 bg-yellow-50 rounded-lg border border-yellow-200">
                   <Typography variant="h4" className="font-bold text-yellow-600 mb-1">
                     0
                   </Typography>
-                  <Typography variant="small" className="text-yellow-800 font-medium">
+                  <Typography variant="small" className="text-yellow-800">
                     Missing Punch
                   </Typography>
                 </div>
@@ -288,59 +268,48 @@ export function AdminDashboard() {
           {/* Schedule Monitor and Scheduled Hours */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Schedule Monitor */}
-            <Card className="shadow-2xl border-0 bg-white/90 backdrop-blur-sm hover:shadow-3xl transition-all duration-300">
-              <CardHeader floated={false} color="transparent" className="m-0 p-6 pb-4 bg-gradient-to-r from-cyan-600 to-blue-600">
+            <Card className="shadow-lg">
+              <CardHeader floated={false} shadow={false} color="transparent" className="m-0 p-6 pb-4">
                 <div className="flex items-center justify-between">
-                  <Typography variant="h6" className="font-bold text-white">
+                  <Typography variant="h6" className="font-semibold text-blue-gray-800">
                     Schedule Monitor
                   </Typography>
-                  <Button variant="text" size="sm" className="p-2 text-white hover:bg-white/20">
+                  <Button variant="text" size="sm" className="p-2">
                     <EllipsisHorizontalIcon className="h-5 w-5" />
                   </Button>
                 </div>
               </CardHeader>
               <CardBody className="pt-0 px-6 pb-6">
                 <div className="text-center">
-                  <div className="relative w-32 h-32 mx-auto mb-6">
+                  <div className="relative w-32 h-32 mx-auto mb-4">
                     <svg className="w-32 h-32 transform -rotate-90">
                       <circle cx="64" cy="64" r="50" stroke="#e5e7eb" strokeWidth="8" fill="none" />
-                      <circle cx="64" cy="64" r="50" stroke="url(#gradient1)" strokeWidth="8" fill="none" 
+                      <circle cx="64" cy="64" r="50" stroke="#3b82f6" strokeWidth="8" fill="none" 
                               strokeDasharray={`${2.51 * 50 * 1} ${2.51 * 50}`} strokeLinecap="round" />
-                      <defs>
-                        <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="100%">
-                          <stop offset="0%" stopColor="#06b6d4" />
-                          <stop offset="100%" stopColor="#3b82f6" />
-                        </linearGradient>
-                      </defs>
                     </svg>
                     <div className="absolute inset-0 flex items-center justify-center">
                       <div className="text-center">
-                        <Typography variant="h3" className="font-bold bg-gradient-to-r from-cyan-600 to-blue-600 bg-clip-text text-transparent">
+                        <Typography variant="h3" className="font-bold text-blue-600">
                           0
                         </Typography>
-                        <Typography variant="small" className="text-gray-600 font-medium">
+                        <Typography variant="small" className="text-gray-600">
                           Unfilled Shifts
                         </Typography>
                       </div>
                     </div>
-                  </div>
-                  <div className="flex justify-center space-x-1">
-                    {[1, 2, 3, 4, 5].map((dot) => (
-                      <div key={dot} className="w-2 h-2 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full animate-pulse"></div>
-                    ))}
                   </div>
                 </div>
               </CardBody>
             </Card>
 
             {/* Scheduled Hours Chart */}
-            <Card className="shadow-2xl border-0 bg-white/90 backdrop-blur-sm hover:shadow-3xl transition-all duration-300">
-              <CardHeader floated={false} color="transparent" className="m-0 p-6 pb-4 bg-gradient-to-r from-green-600 to-teal-600">
+            <Card className="shadow-lg">
+              <CardHeader floated={false} shadow={false} color="transparent" className="m-0 p-6 pb-4">
                 <div className="flex items-center justify-between">
-                  <Typography variant="h6" className="font-bold text-white">
+                  <Typography variant="h6" className="font-semibold text-blue-gray-800">
                     Weekly Schedule
                   </Typography>
-                  <Button variant="text" size="sm" className="p-2 text-white hover:bg-white/20">
+                  <Button variant="text" size="sm" className="p-2">
                     <EllipsisHorizontalIcon className="h-5 w-5" />
                   </Button>
                 </div>
@@ -356,17 +325,15 @@ export function AdminDashboard() {
                           {day}
                         </Typography>
                         <div className="flex-1 mx-4">
-                          <div className="bg-gray-200 rounded-full h-3 overflow-hidden">
+                          <div className="bg-gray-200 rounded-full h-3">
                             <div 
-                              className="bg-gradient-to-r from-green-500 to-teal-500 h-3 rounded-full flex items-center justify-center text-white font-bold text-xs transition-all duration-500 hover:from-green-600 hover:to-teal-600"
+                              className="bg-blue-500 h-3 rounded-full transition-all duration-300"
                               style={{ width: `${percentage}%` }}
-                            >
-                              {hours}h
-                            </div>
+                            ></div>
                           </div>
                         </div>
-                        <Typography variant="small" className="text-gray-600 w-16 text-right font-medium">
-                          {percentage.toFixed(0)}%
+                        <Typography variant="small" className="text-gray-600 w-16 text-right">
+                          {hours}h
                         </Typography>
                       </div>
                     );
@@ -381,29 +348,29 @@ export function AdminDashboard() {
       {/* Bottom Section */}
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
         {/* Approaching Overtime */}
-        <Card className="shadow-2xl border-0 bg-white/90 backdrop-blur-sm hover:shadow-3xl transition-all duration-300">
-          <CardHeader floated={false} color="transparent" className="m-0 p-6 pb-4 bg-gradient-to-r from-amber-600 to-orange-600">
+        <Card className="shadow-lg">
+          <CardHeader floated={false} shadow={false} color="transparent" className="m-0 p-6 pb-4">
             <div className="flex items-center justify-between">
-              <Typography variant="h6" className="font-bold text-white">
+              <Typography variant="h6" className="font-semibold text-blue-gray-800">
                 Approaching Overtime
               </Typography>
-              <Button variant="text" size="sm" className="p-2 text-white hover:bg-white/20">
+              <Button variant="text" size="sm" className="p-2">
                 <EllipsisHorizontalIcon className="h-5 w-5" />
               </Button>
             </div>
           </CardHeader>
           <CardBody className="pt-0 px-6 pb-6">
             {overtimeData.map((employee, index) => (
-              <div key={index} className="flex flex-col sm:flex-row sm:items-center justify-between p-6 bg-gradient-to-r from-yellow-50 to-orange-50 rounded-xl border-l-4 border-orange-400 gap-4 hover:shadow-lg transition-all duration-300">
+              <div key={index} className="flex flex-col sm:flex-row sm:items-center justify-between p-4 bg-yellow-50 rounded-lg border border-yellow-200 gap-4">
                 <div className="flex items-center space-x-4">
                   <div className="relative">
-                    <Avatar src="/img/team-4.jpeg" alt={employee.name} size="lg" className="ring-2 ring-orange-200" />
-                    <div className="absolute -top-1 -right-1 w-5 h-5 bg-orange-500 rounded-full flex items-center justify-center">
-                      <ExclamationTriangleIcon className="h-3 w-3 text-white" />
+                    <Avatar src="/img/team-4.jpeg" alt={employee.name} size="md" />
+                    <div className="absolute -top-1 -right-1 w-4 h-4 bg-yellow-500 rounded-full flex items-center justify-center">
+                      <ExclamationTriangleIcon className="h-2 w-2 text-white" />
                     </div>
                   </div>
                   <div>
-                    <Typography variant="small" className="font-bold text-gray-800 text-base">
+                    <Typography variant="small" className="font-medium text-gray-800">
                       {employee.name}
                     </Typography>
                     <Typography variant="small" className="text-gray-600">
@@ -412,27 +379,24 @@ export function AdminDashboard() {
                   </div>
                 </div>
                 <div className="text-left sm:text-right">
-                  <Typography variant="small" className="text-orange-600 font-bold text-sm">
+                  <Typography variant="small" className="text-yellow-600 font-medium">
                     {employee.approaching}
                   </Typography>
-                  <Chip value={employee.status} color="green" size="sm" className="text-xs mt-2" />
+                  <Chip value={employee.status} color="green" size="sm" className="text-xs mt-1" />
                 </div>
               </div>
             ))}
-            <Typography variant="small" className="text-gray-500 mt-6 text-center">
-              Last Update: September 30, 2021 9:05 AM
-            </Typography>
           </CardBody>
         </Card>
 
         {/* Time Off Requests */}
-        <Card className="shadow-2xl border-0 bg-white/90 backdrop-blur-sm hover:shadow-3xl transition-all duration-300">
-          <CardHeader floated={false} color="transparent" className="m-0 p-6 pb-4 bg-gradient-to-r from-rose-600 to-pink-600">
+        <Card className="shadow-lg">
+          <CardHeader floated={false} shadow={false} color="transparent" className="m-0 p-6 pb-4">
             <div className="flex items-center justify-between">
-              <Typography variant="h6" className="font-bold text-white">
+              <Typography variant="h6" className="font-semibold text-blue-gray-800">
                 Time Off Requests
               </Typography>
-              <Button variant="text" size="sm" className="p-2 text-white hover:bg-white/20">
+              <Button variant="text" size="sm" className="p-2">
                 <EllipsisHorizontalIcon className="h-5 w-5" />
               </Button>
             </div>
@@ -440,16 +404,16 @@ export function AdminDashboard() {
           <CardBody className="pt-0 px-6 pb-6">
             <div className="space-y-4">
               {timeOffRequests.map((request) => (
-                <div key={request.id} className="flex flex-col lg:flex-row lg:items-center justify-between p-6 bg-gradient-to-r from-gray-50 to-rose-50 rounded-xl border-l-4 border-rose-400 gap-4 hover:shadow-lg transition-all duration-300">
+                <div key={request.id} className="flex flex-col lg:flex-row lg:items-center justify-between p-4 bg-gray-50 rounded-lg gap-4">
                   <div className="flex items-center space-x-4">
                     <div className="relative">
-                      <Avatar src="/img/team-2.jpeg" alt={request.name} size="lg" className="ring-2 ring-rose-200" />
-                      <div className="absolute -top-1 -right-1 w-5 h-5 bg-rose-500 rounded-full flex items-center justify-center">
-                        <CalendarDaysIcon className="h-3 w-3 text-white" />
+                      <Avatar src="/img/team-2.jpeg" alt={request.name} size="md" />
+                      <div className="absolute -top-1 -right-1 w-4 h-4 bg-blue-500 rounded-full flex items-center justify-center">
+                        <CalendarDaysIcon className="h-2 w-2 text-white" />
                       </div>
                     </div>
                     <div>
-                      <Typography variant="small" className="font-bold text-gray-800 text-base">
+                      <Typography variant="small" className="font-medium text-gray-800">
                         {request.name}
                       </Typography>
                       <Typography variant="small" className="text-gray-600">
@@ -459,24 +423,26 @@ export function AdminDashboard() {
                     </div>
                   </div>
                   <div className="text-left lg:text-right">
-                    <Typography variant="small" className="text-gray-600 mb-3 font-medium">
+                    <Typography variant="small" className="text-gray-600 mb-3">
                       {request.dates}
                     </Typography>
                     <div className="flex flex-row space-x-2">
                       <Button
                         size="sm"
-                        className="px-4 py-2 text-xs bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 transition-all duration-300"
+                        color="green"
+                        className="px-3 py-2 text-xs"
                         onClick={() => handleApprove(request.id)}
                       >
-                        <CheckIcon className="h-4 w-4 mr-1" />
+                        <CheckIcon className="h-3 w-3 mr-1" />
                         Approve
                       </Button>
                       <Button
                         size="sm"
-                        className="px-4 py-2 text-xs bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 transition-all duration-300"
+                        color="red"
+                        className="px-3 py-2 text-xs"
                         onClick={() => handleDeny(request.id)}
                       >
-                        <XMarkIcon className="h-4 w-4 mr-1" />
+                        <XMarkIcon className="h-3 w-3 mr-1" />
                         Deny
                       </Button>
                     </div>
